@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amazon Price Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 16px;
+      width: 300px;
+      background-color: #f9fafb;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #059669;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #374151;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Amazon Price Tracker</h1>
+  <input type="text" id="productUrl" placeholder="Paste product URL here" />
+  <button id="trackBtn">Track Price</button>
+  <div class="status" id="statusMsg"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+
