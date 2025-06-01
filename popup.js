@@ -1,23 +1,27 @@
-//1. Get the URL input from user.
-const trackButton = document.getElementById("trackBtn");
+document.getElementById("trackBtn").addEventListener("click", trackPrice);
 
-trackButton.addEventListener("click", trackPrice);
+async function trackPrice() {
+    /* Track price of amazon product on current tab/window on chrome. */
 
-function trackPrice() {
-    const productUrl = document.getElementById("productUrl").value.trim();
+    // Get the current active window/tab on chrome.
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tab = tabs[0];
 
-    if (!isValidAmazonUrl(productUrl)) {
-        document.getElementById("statusMsg").textContent = "Invalid Amazon product URL!";
-        return;
+
+    try {
+        // Send message to content.js to request product info on that amazon product page.
+        const response = await chrome.tabs.sendMessage(tab.id, { type: "GET_PRODUCT_INFO" });
+
+        if (!response || response.error) {
+            alert("This window is not an amazon product page!")
+            return;
+        }
+
+        // Test by displaying the scraped product info.
+        const output = document.getElementById("output");
+        output.innerHTML = `<p> <a href="${response.url}">${response.title}</a>: ${response.currencySym}${response.price.whole}.${response.price.fraction}.</p>`;
+    } catch (err) {
+        document.getElementById("statusMsg").textContent = "Refresh the amazon page and try again!";
     }
 
-    // Start tracking product price.
-    document.getElementById("statusMsg").textContent = "Product tracking started!";
-}
-
-function isValidAmazonUrl(url) {
-    /* Validate URL to ensure it is a valid product page. */
-    const pattern = /^https?:\/\/(www\.)?amazon\.(com|ca|co\.uk|de|in|co\.jp)\/.*\/(gp\/product|dp)\/[A-Z0-9]{10}\/.*/i;
-
-    return pattern.test(url);
-}
+};
